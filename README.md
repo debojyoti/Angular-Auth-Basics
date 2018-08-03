@@ -18,5 +18,7 @@ Create a service for http connection with backend
 ```
 ng g s connector --spec false
 ```
-
-
+Add `@auth0/angular-jwt` package to play with jwt
+```
+npm i --save @auth0/angular-jwt
+```
