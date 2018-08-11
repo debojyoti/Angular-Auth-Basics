@@ -48,3 +48,72 @@ export class AppRoutingModule { }
 
 ```
 Put the `<router-outlet></router-outlet>` in `app.component.html`
+# 1  &nbsp;  &nbsp; Use http interceptor
+
+### 1.1  &nbsp;  &nbsp; Create a service to intercept token in each requests
+
+```
+ng g s token-interceptor --spec false
+```
+
+```typescript
+import { Injectable } from '@angular/core';
+import { HttpInterceptor } from '@angular/common/http'
+
+@Injectable({
+  providedIn: 'root'
+})
+export class TokenInterceptorService implements HttpInterceptor {
+
+  constructor() { }
+
+  intercept(req, next) {
+    
+    if (this.getToken()) {
+      let tokenizedReq = req.clone({
+        setHeaders : {
+          Authorization : "Bearer "
+        }
+      })
+  
+      return next.handle(tokenizedReq);
+    } else {
+      return next.handle(req);
+    }
+
+  }
+
+  private getToken() {
+    if (!!localStorage.getItem("token")) {
+      return localStorage.getItem("token")
+    } else {
+      return false;
+    }
+  }
+}
+```
+### 1.2   &nbsp;  &nbsp; Register the interceptor service in the module
+
+```typescript
+...
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptorService } from './token-interceptor.service';
+...
+
+@NgModule({
+  ...
+  providers: [
+    ...,
+    TokenInterceptorService, 
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptorService,
+      multi: true
+    }
+  ]
+})
+export class AppRoutingModule { }
+
+```
+
+

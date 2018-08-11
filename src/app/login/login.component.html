@@ -1,3 +1,4 @@
-<p>
-  login works!
-</p>
+<input type="text" [(ngModel)]="email" [ngModelOptions]="{standalone: true}" placeholder="email"><br>
+<input type="password" [(ngModel)]="password" [ngModelOptions]="{standalone: true}" placeholder="password"><br>
+<button (click)="login()">Login</button><br>
+<span id="errorField">{{ errorMsg }}</span>
