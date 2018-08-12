@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ConnectorService } from '../connector.service';
 
 @Component({
   selector: 'app-login',
@@ -11,13 +12,19 @@ export class LoginComponent implements OnInit {
   public email;
   public password;
 
-  constructor() { }
+  constructor(
+    private connector : ConnectorService
+  ) { }
 
   ngOnInit() {
   }
 
   login() {
-    
+    let credentials = {
+      "email" : this.email,
+      "password" : this.password
+    };
+    this.connector.getRequest(credentials)
   }
 
 }
