@@ -10,27 +10,35 @@ export class ConnectorService {
     private http: HttpClient
   ) { }
 
-  public getRequest(params) {
+  public getRequest(url,params) : Observable<any> {
     let res = this.http.get(
-      "http://dp.localhost.com/index.php",
+      url,
       {
         params : params
       }
-    ).subscribe(res => {
-      //  Update the token in localstorage if available
-      this.updateToken(res);
-      // Return the response to the invoking method
-      return res;
-    });
+    )
+    //  Update the token in localstorage if available
+    this.updateToken(res);
+    // Return the response to the invoking method
+    return res;
   }
 
-  public postRequest(params) {
-
+  public postRequest(url, params) : Observable<any> {
+    let res = this.http.post(
+      url,
+      {
+        params : params
+      }
+    )
+    //  Update the token in localstorage if available
+    this.updateToken(res);
+    // Return the response to the invoking method
+    return res;
   }
 
   public updateToken(response) {
-    if (response["token"] !== undefined) {
-      localStorage.setItem("token", response["token"]);
+    if (response["auth"] !== undefined) {
+      localStorage.setItem("auth", response["token"]);
     }
   }
 

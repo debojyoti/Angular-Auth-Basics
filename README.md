@@ -144,9 +144,9 @@ export class ConnectorService {
     private http: HttpClient
   ) { }
 
-  public getRequest(params) {
+  public getRequest(url,params) {
     let res = this.http.get(
-      "http://dp.localhost.com/index.php",
+      url,
       {
         params : params
       }
@@ -169,6 +169,7 @@ export class ConnectorService {
   }
 
 }
+
 
 
 ```
